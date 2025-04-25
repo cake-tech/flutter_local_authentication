@@ -17,7 +17,7 @@ import LocalAuthentication
 /// on iOS devices.
 public class FlutterLocalAuthenticationPlugin: NSObject, FlutterPlugin {
 
-    let context = LAContext()
+    var context = LAContext()
     var localizationModel = LocalizationModel.default
 
     /// Registers the plugin with the Flutter engine.
@@ -45,6 +45,7 @@ public class FlutterLocalAuthenticationPlugin: NSObject, FlutterPlugin {
             result(supports && error == nil)
         case .authenticate:
             authenticate { autheticated, error in
+                self.context = LAContext()
                 if let error = error {
                     let flutterError = FlutterError(code: "authentication_error", message: error.localizedDescription, details: nil)
                     result(flutterError)
